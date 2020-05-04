@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: 10mbcontainer
+spec:
+  containers:
+  - name: 10mbcontainer
+    image: hascheksolutions/bitcoin-alpine:latest
+

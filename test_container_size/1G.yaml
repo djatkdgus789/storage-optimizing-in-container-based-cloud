@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: 1gbcontainer
+spec:
+  containers:
+  - name: 1gbcontainer
+    image: sivag/1gbimage
+
+

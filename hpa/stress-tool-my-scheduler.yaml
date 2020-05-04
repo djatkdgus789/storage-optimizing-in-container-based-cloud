@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpu-stress
+spec:
+  selector:
+    matchLabels:
+      run: cpu-stress
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: cpu-stress
+        name: multischeduler-example
+        schedulingStrategy: meetup
+        serviceName: annotation-second-scheduler
+    spec:
+      schedulerName: my-scheduler
+      containers:
+      - name: cpu-stress
+        image: gcr.io/kubernetes-e2e-test-images/resource-consumer@sha256:284fcd047cdec35e1b212919bd878ba5ef72f1da12f49ddc199d219fa8b64f4a
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cpu-stress
+  labels:
+    run: cpu-stress
+spec:
+  ports:
+  - port: 80
+  selector:
+    run: cpu-stress
