@@ -40,7 +40,7 @@ for t in range(0,100000):
             cpu_n += int(re.findall('\d+', cpu)[0])
 
     if current_cpu != cpu_n:
-        print(f'({index},{cpu_n})')
+        print("({i},{c})".format(i = index, c = cpu_n))
         current_cpu = cpu_n
         write_csv(index, cpu_n)
         index += 1

@@ -19,7 +19,7 @@
 
 REPO = djatkdgus789/
 NAME = scheduler-py
-TAG = 0.4.3
+TAG = 0.6.0
 
 build:
 	sudo docker build -t $(REPO)$(NAME):$(TAG) .

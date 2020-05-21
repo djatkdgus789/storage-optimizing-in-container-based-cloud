@@ -2,26 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    run: resource-consumer
-  name: resource-consumer
+    run: resource-consumer-default
+  name: resource-consumer-default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      run: resource-consumer
+      run: resource-consumer-default
   template:
     metadata:
       labels:
-        run: resource-consumer
-        name: multi-scheduler-example
-        schedulingStrategy: meetup
-        serviceName: annotataion-second-scheduler
+        run: resource-consumer-default
     spec:
-      schedulerName: my-scheduler
       containers:
       - image: gcr.io/kubernetes-e2e-test-images/resource-consumer:1.4
         imagePullPolicy: IfNotPresent
-        name: resource-consumer
+        name: resource-consumer-default
         ports:
         - containerPort: 8080
           protocol: TCP
@@ -38,13 +34,13 @@ items:
 - apiVersion: v1
   kind: Service
   metadata:
-    name: resource-consumer
+    name: resource-consumer-default
   spec:
     ports:
     - port: 8080
       protocol: TCP
       targetPort: 8080
     selector:
-      run: resource-consumer
+      run: resource-consumer-default
     type: LoadBalancer
 kind: List

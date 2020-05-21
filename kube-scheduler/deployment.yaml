@@ -40,5 +40,5 @@ spec:
     spec:
       serviceAccountName: my-scheduler
       containers:
-      - image: djatkdgus789/scheduler-py:0.4.3
+      - image: djatkdgus789/scheduler-py:0.6.0
         name: my-scheduler

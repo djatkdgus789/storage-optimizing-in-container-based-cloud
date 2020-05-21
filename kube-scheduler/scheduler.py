@@ -62,40 +62,80 @@ def _get_schedulable_node(v1_client,pod_images):
     available_nodes = list(set(node_list))
     # 이미지의 list를 받는다.
     # 해당 이미지가 존재하는 노드를 찾는다.
+    logger.info(available_nodes)
     return random.choice(available_nodes) # 랜덤이라서 고쳐야함.
 
 def _get_prefetch_node(pod_images):
     # api를 통해서 prefetch된 node를 찾는다.
     logger.info("This pod use " + pod_images)
     prefetch_nodes = []
-    whale01 = requests.get('http://192.168.0.3:3000/api/images?node_name=whale01').json()
-    whale02 = requests.get('http://192.168.0.3:3000/api/images?node_name=whale02').json()
+    whale01 = requests.get('http://10.128.0.8:3000/api/images?node_name=whale01').json()
+    whale02 = requests.get('http://10.128.0.8:3000/api/images?node_name=whale02').json()
+    whale03 = requests.get('http://10.128.0.8:3000/api/images?node_name=whale03').json()
+    whale04 = requests.get('http://10.128.0.8:3000/api/images?node_name=whale04').json()
+    whale05 = requests.get('http://10.128.0.8:3000/api/images?node_name=whale05').json()
     
     whale01_imagelist = whale01.values()
     whale02_imagelist = whale02.values()
+    whale03_imagelist = whale03.values()
+    whale04_imagelist = whale04.values()
+    whale05_imagelist = whale05.values()
     
-    #logger.info("whale01 has " + str(whale01_imagelist))
-    #logger.info("whale01 has " + str(whale02_imagelist))
-    for imagelist in whale02_imagelist:
+    for imagelist in whale01_imagelist:
         for image in imagelist:
             if not image:
+                logger.info("there is no matching image in whale01")
                 continue
             logger.info("image: "+ str(image[0]))
             if str(image[0]) in str(pod_images) or str(pod_images) in str(image[0]):
                 logger.info("This pod use image in whale01")
-                return ['whale01']
+                prefetch_nodes.append('whale01')
     
     for imagelist in whale02_imagelist:
         for image in imagelist:
             if not image:
+                logger.info("there is no matching image in whale02")
                 continue
             logger.info("image: "+ str(image[0]))
             if str(image[0]) in str(pod_images) or str(pod_images) in str(image[0]):
                 logger.info("This pod use image in whale02")
-                return ['whale02']
+                prefetch_nodes.append('whale02')
 
-    logger.info("There is no matching images")
-    return 
+    for imagelist in whale03_imagelist:
+        for image in imagelist:
+            if not image:
+                logger.info("there is no matching image in whale03")
+                continue
+            logger.info("image: "+ str(image[0]))
+            if str(image[0]) in str(pod_images) or str(pod_images) in str(image[0]):
+                logger.info("This pod use image in whale03")
+                prefetch_nodes.append('whale03')
+	
+    for imagelist in whale04_imagelist:
+        for image in imagelist:
+            if not image:
+                logger.info("there is no matching image in whale04")
+                continue
+            logger.info("image: "+ str(image[0]))
+            if str(image[0]) in str(pod_images) or str(pod_images) in str(image[0]):
+                logger.info("This pod use image in whale04")
+                prefetch_nodes.append('whale04')
+
+    for imagelist in whale05_imagelist:
+        for image in imagelist:
+            if not image:
+                logger.info("there is no matching image in whale05")
+                continue
+            logger.info("image: "+ str(image[0]))
+            if str(image[0]) in str(pod_images) or str(pod_images) in str(image[0]):
+                logger.info("This pod use image in whale05")
+                prefetch_nodes.append('whale05')
+
+    if not prefetch_nodes:
+        logger.info("There is no matching images")
+        return
+
+    return prefetch_nodes
        
     
 
